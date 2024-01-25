@@ -3,7 +3,6 @@ import { promises as fsPromises, existsSync } from 'fs';
 class ProductManager {
     constructor() {
         this.path = './data/productos.json';
-        this.products = [];
         if (!existsSync(this.path)) {
             fsPromises.writeFile(this.path, JSON.stringify([]));
         }
