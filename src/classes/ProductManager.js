@@ -76,22 +76,6 @@ class ProductManager {
             throw new Error(`Error al intentar eliminar el producto con ID ${id}: ${error.message}.`);
         }
     }
-
-    validateCode = async (code) => {
-        try{
-            let content = await fsPromises.readFile(this.path, 'utf-8');
-            let products = JSON.parse(content);
-
-            const existingProduct = products.find((product) => product.code === code);
-            if (existingProduct) {
-                return { status: 409, message: `Ya existe un producto con code: ${code}` };
-            } else {
-                return { status: 200, message: `No existe un producto con code: ${code}` };
-            }
-        } catch {
-            throw new Error(`Error al validar el code: ${error.message}`);
-        }
-    }
 }
 
 export default ProductManager;
