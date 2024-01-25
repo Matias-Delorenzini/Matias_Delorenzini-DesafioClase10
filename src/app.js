@@ -32,5 +32,4 @@ io.on("connection", async (socket) => {
             socket.emit("error",err.message)
         }
     })
-
-}) // Fin del socket 
+})

@@ -82,7 +82,6 @@ class ProductManager {
 
     validateCode = async (code) => {
         try{
-            // Buscamos si en products existe un producto con el mismo code, si lo hay lo avisamos
             let content = await fsPromises.readFile(this.path, 'utf-8');
             let products = JSON.parse(content);
 
