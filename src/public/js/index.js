@@ -5,14 +5,12 @@ function enviarProducto() {
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
     const price = document.getElementById("price").value;
-    const code = document.getElementById("code").value;
-    const thumbnail = document.getElementById("thumbnail").value;
     const stock = document.getElementById("stock").value;
     const category = document.getElementById("category").value;
     const status = document.getElementById("status").value;
     const idToEdit = document.getElementById("idToEditList").value;
 
-    if (!title || !description || !price || !code || !stock || !category || !thumbnail) {
+    if (!title || !description || !price || !stock || !category) {
         alert("Faltan ingresar campos");
         return
     }
@@ -21,8 +19,6 @@ function enviarProducto() {
         title,
         description,
         price,
-        code,
-        thumbnail,
         stock,
         category,
         status,
@@ -57,8 +53,6 @@ socket.on("actualizarProductos", (products) => {
         row.innerHTML = `
             <td>${product.title}</td>
             <td>${product.description}</td>
-            <td>${product.code}</td>
-            <td>${product.thumbnail}</td>
             <td>${product.stock}</td>
             <td>${product.category}</td>
             <td>${product.status}</td>
@@ -96,10 +90,9 @@ function eliminarProducto(id) {
         return response.json();
     })
     .then(data => {
-        console.log('Producto eliminado correctamente');
         socket.emit("getAllProducts");
     })
     .catch(error => {
-        console.error(error);
+        console.error('Error:', error);
     })
 }
