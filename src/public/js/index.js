@@ -53,7 +53,6 @@ socket.on("actualizarProductos", (products) => {
         row.innerHTML = `
             <td>${product.title}</td>
             <td>${product.description}</td>
-            <td>${product.stock}</td>
             <td>${product.category}</td>
             <td>${product.status}</td>
             <td>${product.price}</td>
