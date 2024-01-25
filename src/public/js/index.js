@@ -1,7 +1,7 @@
 const socket = io();
 
-
 function enviarProducto() {
+
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
     const price = document.getElementById("price").value;
@@ -10,30 +10,48 @@ function enviarProducto() {
     const stock = document.getElementById("stock").value;
     const category = document.getElementById("category").value;
     const status = document.getElementById("status").value;
+    const idToEdit = document.getElementById("idToEditList").value;
+
+    if (!title || !description || !price || !code || !stock || !category || !thumbnail) {
+        alert("Faltan ingresar campos");
+        return
+    }
+
+    const productData = {
+        title,
+        description,
+        price,
+        code,
+        thumbnail,
+        stock,
+        category,
+        status,
+        idToEdit
+    };
 
     fetch("http://localhost:8080/api/products", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({title,description,price,code,thumbnail,stock,category,status})
+        body: JSON.stringify(productData)
     })
     .then(response => response.json())
     .then(data => {
-        socket.emit("getAllProducts")
+        socket.emit("getAllProducts");
     })
     .catch(error => {
         console.error('Error:', error);
     });
 
     document.getElementById("addProductForm").reset();
-    return
+    return;
 }
 
+
 socket.on("actualizarProductos", (products) => {
-    const productList = document.getElementById("body");
+    const productList = document.getElementById("productList");
     productList.innerHTML = "";
-  
     products.forEach((product) => {
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -46,13 +64,26 @@ socket.on("actualizarProductos", (products) => {
             <td>${product.status}</td>
             <td>${product.price}</td>
             <td>${product.stock}</td>
-            <td><button onclick="eliminarProducto('${product.id}')">X</button></td>
-            <td><button onclick="guardarCambios(this, '${this.id}')">Guardar</button></td>
+            <td><button onclick="eliminarProducto('${product.id}')">Eliminar</button></td>
             <td>${product.id}</td>
         `;
         productList.appendChild(row);
     });
+
+    const idToEditList = document.getElementById("idToEditList");
+    idToEditList.innerHTML = "";
+    const noneOption = document.createElement("option");
+    noneOption.value = "none";
+    noneOption.textContent = "Ninguno";
+    idToEditList.appendChild(noneOption);
+    products.forEach((product) => {
+        const option = document.createElement("option");
+        option.value = product.id;
+        option.textContent = product.id;
+        idToEditList.appendChild(option);
+    });
 });
+
 
 function eliminarProducto(id) {
     fetch(`http://localhost:8080/api/products/${id}`, {
@@ -72,27 +103,3 @@ function eliminarProducto(id) {
         console.error(error);
     })
 }
-
-function guardarCambios(button, productId) {
-    const row = button.parentNode.parentNode;
-    const descriptionCell = row.querySelector('.editable');
-    const newDescription = descriptionCell.textContent;
-
-    fetch(`http://localhost:8080/api/products/${productId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            description: newDescription,
-        }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Cambios guardados correctamente:', data);
-    })
-    .catch(error => {
-        console.error('Error al guardar cambios:', error);
-    });
-}
-

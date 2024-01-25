@@ -13,25 +13,23 @@
             <th>Precio</th>
             <th>Stock</th>
             <th>Acciones</th> <!-- Nueva columna para acciones -->
-            <th>Acciones</th> <!-- Nueva columna para acciones -->
             <th>ID</th>
 
         </tr>
     </thead>
-    <tbody id="body">
+    <tbody id="productList">
         {{#each products}}
             <tr class="fila">
-                <td class="editable" contenteditable="true">{{this.title}}</td>
-                <td class="editable" contenteditable="true">{{this.description}}</td>
-                <td class="editable" contenteditable="true">{{this.code}}</td>
-                <td class="editable" contenteditable="true">{{this.thumbnail}}</td>
-                <td class="editable" contenteditable="true">{{this.stock}}</td>
-                <td class="editable" contenteditable="true">{{this.category}}</td>
-                <td class="editable" contenteditable="true">{{this.status}}</td>
-                <td class="editable" contenteditable="true">{{this.price}}</td>
-                <td class="editable" contenteditable="true">{{this.stock}}</td>
-                <td><button onclick="eliminarProducto('{{this.id}}')">X</button></td>
-                <td><button onclick="guardarCambios(this, '{{this.id}}')">Guardar</button></td>
+                <td>{{this.title}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.code}}</td>
+                <td>{{this.thumbnail}}</td>
+                <td>{{this.stock}}</td>
+                <td>{{this.category}}</td>
+                <td>{{this.status}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.stock}}</td>
+                <td><button onclick="eliminarProducto('{{this.id}}')">Eliminar</button></td>
                 <td>{{this.id}}</td>
             </tr>
         {{/each}}
@@ -39,41 +37,41 @@
 </table>
 <form id="addProductForm" action="#" method="post">
     <label for="title">Título:</label>
-    <input type="text" id="title" name="title" required><br>
+    <input type="text" id="title" name="title" ><br>
 
     <label for="description">Descripción:</label>
-    <input type="text" id="description" name="description" required><br>
+    <input type="text" id="description" name="description" ><br>
 
     <label for="code">Código:</label>
-    <input type="text" id="code" name="code" required><br>
+    <input type="text" id="code" name="code" ><br>
 
     <label for="thumbnail">Thumbnail:</label>
-    <input type="text" id="thumbnail" name="thumbnail" required><br>
+    <input type="text" id="thumbnail" name="thumbnail" ><br>
 
     <label for="category">Categoría:</label>
-    <input type="text" id="category" name="category" required><br>
+    <input type="text" id="category" name="category" ><br>
 
     <label for="status">Estado:</label>
-    <select id="status" name="status" required>
+    <select id="status" name="status" >
         <option value="true">True</option>
         <option value="false">False</option>
     </select><br>
 
     <label for="price">Precio:</label>
-    <input type="number" id="price" name="price" required><br>
+    <input type="number" id="price" name="price" ><br>
 
     <label for="stock">Stock:</label>
-    <input type="number" id="stock" name="stock" required><br>
+    <input type="number" id="stock" name="stock" ><br>
 
-    <label for="editId">ID a Editar:</label>
-    <select id="editId" name="editId">
+    <label for="idToEdit">En caso de querer editar un producto, especifique su ID:</label>
+    <select id="idToEditList" name="idToEdit">
+        <option value="none">Ninguno</option>
         {{#each products}}
             <option value="{{this.id}}">{{this.id}}</option>
         {{/each}}
-        <option value="none">Ninguno</option>
     </select><br>
 
-    <button type="button" onclick="enviarProducto()">Añadir Producto</button>
+    <button type="button" onclick="enviarProducto()">Enviar</button>
   </form>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script>

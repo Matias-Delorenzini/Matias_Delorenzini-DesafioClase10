@@ -19,14 +19,4 @@ router.get("/realtimeproducts", async (req,res)=>{
     res.render("realTimeProducts",{products})
 })
 
-router.get("/realtimeproducts", async (req,res) => {
-    try {
-        const data = await req.productManager.getProducts()
-        const dataExist = data.lenght === 0? false : true
-        res.render("realTimeProducts",{data,dataExist})
-    }catch (err) {
-        res.send({error: err.message})
-    }
-})
-
 export default router
